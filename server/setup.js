@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
+
 const fs = require("fs");
 const readline = require("readline");
 const { execSync } = require("child_process");
 const crypto = require("crypto");
+execSync("npm install dotenv", { stdio: "inherit" });
+import dotenv from 'dotenv';
+dotenv.config();
 
 const colors = {
   reset: "\x1b[0m",
@@ -35,44 +39,6 @@ const ask = (question) =>
     colors.reset
   );
 
-  const openaiApiKey = await ask(
-    `${colors.yellow}Enter your OPENAI_API_KEY: ${colors.reset}`
-  );
-  const mongodbUser = await ask(
-    `${colors.yellow}Enter your MONGODB_USER: ${colors.reset}`
-  );
-  const mongodbPassword = await ask(
-    `${colors.yellow}Enter your MONGODB_PASSWORD: ${colors.reset}`
-  );
-  const mongodbUrl = await ask(
-    `${colors.yellow}Enter your MONGODB_URL: ${colors.reset}`
-  );
-  const mongodbDbName = await ask(
-    `${colors.yellow}Enter your MONGODB_DB_NAME: ${colors.reset}`
-  );
-  const frontendUrl = "http://localhost:3000";
-
-  const jwtSecretKey = crypto.randomBytes(16).toString("hex");
-
-  const envContent = `
-  OPENAI_API_KEY="${openaiApiKey}"
-  MONGODB_USER="${mongodbUser}"
-  MONGODB_PASSWORD="${mongodbPassword}"
-  MONGODB_URL="${mongodbUrl}"
-  MONGODB_DB_NAME="${mongodbDbName}"
-  FRONTEND_URL="${frontendUrl}"
-  JWT_SECRET_KEY="${jwtSecretKey}"
-  PORT=5000
-  `.trim();
-
-  fs.writeFileSync(".env", envContent);
-
-  console.log(
-    colors.green,
-    `${emojis.success} .env file created successfully.`,
-    colors.reset
-  );
-
   console.log(
     colors.cyan,
     `${emojis.info} Installing dependencies...`,
@@ -90,12 +56,9 @@ const ask = (question) =>
   );
   execSync("npm run build", { stdio: "inherit" });
 
-  const adminUsername = await ask(
-    `${colors.yellow}Enter a username for the admin user: ${colors.reset}`
-  );
-  const adminPassword = await ask(
-    `${colors.yellow}Enter a password for the admin user: ${colors.reset}`
-  );
+// Read admin username and password from environment variables
+const adminUsername = process.env.ADMIN_USERNAME;
+const adminPassword = process.env.ADMIN_PASSWORD;
 
   console.log(
     colors.cyan,
