@@ -6,7 +6,7 @@ const readline = require("readline");
 const { execSync } = require("child_process");
 const crypto = require("crypto");
 execSync("npm install dotenv", { stdio: "inherit" });
-import dotenv from 'dotenv';
+const dotenv = require("dotenv");
 dotenv.config();
 
 const colors = {
