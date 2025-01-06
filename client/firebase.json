@@ -1,0 +1,12 @@
+{
+  "hosting": {
+
+    "public": "dist/app",  // "public" is the only required attribute for Hosting
+
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+  }
+}
